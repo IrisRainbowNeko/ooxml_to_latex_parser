@@ -89,7 +89,7 @@ class OOXMLtoLatexParser(sax.ContentHandler):
     @staticmethod
     def getattr(attr):
         try:
-            result = attr.getValueByQName("ns00:val")
+            result = attr.getValueByQName("ns0:val")
         except KeyError:
             result = attr.getValueByQName("val")
         return result
