@@ -21,6 +21,10 @@ Install from source:
 git clone https://github.com/IrisRainbowNeko/ooxml_to_latex_parser
 pip install -e .
 ```
+or
+```bash
+pip install git+https://github.com/IrisRainbowNeko/ooxml_to_latex_parser.git
+```
 
 # Usage
 
