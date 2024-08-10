@@ -1,15 +1,15 @@
 # coding: utf-8
 
 from lxml import sax, etree
-import utils
-from tag import Tag
+from .utils import replace_last_substring
+from .tag import Tag
 
 
 class OOXMLtoLatexParser(sax.ContentHandler):
 
     def __init__(self, math_symbols=None):
         sax.ContentHandler.__init__(self)
-        self.math_symbols = math_symbols if math_symbols is not None else []
+        self.math_symbols = math_symbols if math_symbols is not None else dict()
         self.result = ''
         self.insert_before = ''
         self.insert_after = ''
@@ -112,12 +112,10 @@ class OOXMLtoLatexParser(sax.ContentHandler):
         xml_string = OOXMLtoLatexParser._remove_self_closing_tags(xml_string)
         xml_to_latex_parser = cls(**parser_kwargs)
 
-        if isinstance(xml_string, basestring):
-            element = etree.fromstring(xml_string)
-            sax.saxify(element, xml_to_latex_parser)
-            return xml_to_latex_parser
-        else:
-            raise TypeError("xml string parameter must be str or unicode")
+        #if isinstance(xml_string, basestring):
+        element = etree.fromstring(xml_string)
+        sax.saxify(element, xml_to_latex_parser)
+        return xml_to_latex_parser
 
 
     @staticmethod
@@ -126,7 +124,7 @@ class OOXMLtoLatexParser(sax.ContentHandler):
 
     def _parse_start_eqarr(self, **kwargs):
         self.actual_tag_is_eqarr_child = True
-        self.insert_after = r'\\'
+        self.insert_after = '\\'
         latex = r'\begin{array}{l}'
         if self.insert_before:
             self.result += self.insert_before + latex
@@ -260,7 +258,7 @@ class OOXMLtoLatexParser(sax.ContentHandler):
         Radical Function
         http://www.datypic.com/sc/ooxml/e-m_rad-1.html
         """
-        self.result += '\sqrt'
+        self.result += r'\sqrt'
         self.insert_before = "{"
 
     def _parse_start_deg(self, **kwargs):
@@ -328,7 +326,7 @@ class OOXMLtoLatexParser(sax.ContentHandler):
             function(attrs=attrs)
 
 
-        self.parsed_tags += unicode(tag)
+        self.parsed_tags += str(tag)
         self.previous_tag = tag.name
 
     def endElementNS(self, name, tag):
@@ -339,20 +337,20 @@ class OOXMLtoLatexParser(sax.ContentHandler):
         function = self.tag_end_evaluator.get(tag.name, None)
         if callable(function):
             function(tag=tag)
-        self.parsed_tags += unicode(tag)
+        self.parsed_tags += str(tag)
 
     def characters(self, data):
 
         if data == 'lim':
             self.is_underset = True
-            self.result = utils.replace_last_substring(self.result, "\underbrace{", "\underset")
+            self.result = replace_last_substring(self.result, r"\underbrace{", r"\underset")
         else:
             if data.strip() == r"left":
                 self.text = r"<"
             else:
-                self.text += "{\ "
+                #self.text += "{ "
                 self.text += self._find_symbols(data)
-                self.text += "}"
+                #self.text += "}"
 
             if self.spacing:
                 self.text += self.spacing

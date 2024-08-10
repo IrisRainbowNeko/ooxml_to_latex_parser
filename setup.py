@@ -1,16 +1,28 @@
 # coding: utf-8
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='ooxml_to_latex',
-    version="0.0.4",
-    package_dir={'': 'src'},
+    version="0.1",
     packages=["ooxml_to_latex"],
-    url='https://github.com/qmagico/oxml_to_latex_parser',
+    url='https://github.com/IrisRainbowNeko/ooxml_to_latex_parser',
     license='MIT',
-    author='qmagico',
-    author_email='iury@qmagico.com.br',
+    author='IrisRainbowNeko',
+    author_email='rainbow-neko@outlook.com',
     description='Open office xml to latex parser ',
-    install_requires=['lxml']
+    install_requires=['lxml'],
+
+    classifiers=[
+        'License :: OSI Approved :: Apache Software License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Topic :: Scientific/Engineering :: Artificial Intelligence',
+    ],
+    python_requires='>=3.8',
 )

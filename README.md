@@ -14,6 +14,14 @@ This projects aims to transform ooxml oMath tags, used to represent equations in
 
 Is not in the scope open and extract xml files from **.docx** and even not handle other tags that isn't specified in [http://www.datypic.com/sc/ooxml/s-shared-math.xsd.html](http://www.datypic.com/sc/ooxml/s-shared-math.xsd.html)
 
+# Install
+
+Install from source:
+```bash
+git clone https://github.com/IrisRainbowNeko/ooxml_to_latex_parser
+pip install -e .
+```
+
 # Usage
 
 ## instalation
@@ -24,7 +32,7 @@ Is not in the scope open and extract xml files from **.docx** and even not handl
 
 ```python
 # coding: utf-8
-from ooxml_to_latex.ooxml_to_latex import OOXMLtoLatexParser
+from ooxml_to_latex import OOXMLtoLatexParser
 
 # real numbers set
 xml = '''
@@ -40,10 +48,9 @@ xml = '''
 
 # main function
 # receives a xml string and returns a latex
-latex = OOXMLtoLatexParser.parse(xml)
-
-print latex
->>> \mathbb{R}
+latex = OOXMLtoLatexParser.parse(xml).result
+print(latex)
+>>>  \mathbb{R}
 ```
 
 # Suported tags
